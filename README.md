@@ -3,7 +3,7 @@ A wordpress plugin providing a shortcode for video features with several options
 
 #### Sample Use
 ```
-[videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" video_overlay="Some overlay text" click_label="Click Here" autoplay="true" repeat="true"][/videoshort]
+[videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" click_label="Click Here" autoplay="true" repeat="true"]<h2>A title</h2><p>Lorum ipsum</p><a href="#">Link</a>[/videoshort]
 ```
 
 #### Attributes/Options
@@ -39,10 +39,8 @@ A wordpress plugin providing a shortcode for video features with several options
   - Example: #333333
 - **crop_direction:** [STR] Angle the image and video should crop
   - Example: center
-  - Options: top/center/bottom
-- **video_overlay:** [STR] Text or HTML content to be centered vertically and horizontally over the video
-  - Example: Some content
-- **click_label:** [STR] Text or HTML content to be centered vertically and horizontally over the placeholder image and used for the click event
+  - Options: top/center/bottom  
+- **click_label:** [STR] Text to be centered vertically and horizontally over the placeholder image and used for the click event
   - Example: Click here
 - **autoplay:** [BOOL] Set the video to load without a click event
   - Example: true
@@ -50,3 +48,7 @@ A wordpress plugin providing a shortcode for video features with several options
 - **repeat:** [BOOL] Set the video to loop
   - Example: true
   - Options: true/false
+  
+#### Content
+[STR] Text or HTML content to be centered vertically and horizontally over the video
+  - Example: <h2>A title</h2><p>Lorum ipsum</p><a href="#">Link</a>

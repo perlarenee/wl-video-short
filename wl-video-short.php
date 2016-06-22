@@ -50,8 +50,7 @@ function videoshort_function($atts, $content = null){
         'thumb_back' => '#CCCCCC', //Hexadecimal code (with hash). set this to match the image if limit is set to true
 		'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
 		'crop_direction' => 'center', //Top, center or bottom. crop direction
-		'video_overlay' => '<h2>Title</h2><p>Lorum ipsum</p><a href="#" target="_blank">Click</a>', //Text or html to lay over the video
-		'click_label' => 'Click here', //Text or html to use as the click link
+		'click_label' => 'Click here', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
         'repeat' => "false", //True or false. Works perfectly on vimeo but youtube includes a black screen at the end of the video which can't be gotten rid of. If vimeo is used and repeat is set to false, vimeo's sponsored video screen shows brieftly. To remove this the vimeo video should be uploaded to a vimeo pro account and the settings should be adjusted there. I've managed to remove it by stripping the last second off the video...this means a video used for this should include an extra 1 second at the end
 		'mute' => "true" //True or false. Works on youtube but not vimeo. on vimeo the video should be muted in vimeo's video manager
@@ -71,10 +70,10 @@ function videoshort_function($atts, $content = null){
     $maxWidth = $atts['max_width'];
     $autoplay = $atts['autoplay'] == "true" ? true : false;
     $repeat = $atts['repeat'] == "true" ? true : false;
-    $clickLabel = $atts['click_label'];
-    $clickLabelSlashed = htmlspecialchars(json_encode($clickLabel));
-	$videoOverlay = htmlspecialchars(json_encode($atts['video_overlay']));
-	$videoOverlaySlashed = $videoOverlay;
+    $clickLabel = htmlentities($atts['click_label'],ENT_QUOTES);
+    $clickLabelSlashed = json_encode($clickLabel);
+	$videoOverlay = $content;
+	$videoOverlaySlashed = json_encode($videoOverlay);
     $thumbUrl = $atts['thumb_url']; 
     $thumbAlt = $atts['thumb_alt'];
     $thumbBack = $atts['thumb_back'];
@@ -141,7 +140,7 @@ function videoshort_function($atts, $content = null){
 	data-imagebk='" . $thumbBack . "'
 	data-videobk='" . $videoBack . "'
 	>";
-    //min-height:' . $minHeight . 'px;
+	
     //placeholder image
 	$output .= '<div class="' . $imageWrapClass . '" style="' . ($limitWidth ? 'max-width: ' . $maxWidth . 'px; margin: 0 auto;' : '') . '  max-height: '.$maxHeight.'px;">
 		<img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />
@@ -158,4 +157,4 @@ function videoshort_function($atts, $content = null){
 	return $output;
 }
 add_shortcode('videoshort', 'videoshort_function' );
-//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" breakpoint="800" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" video_overlay="Some overlay text" click_label="Click Here" autoplay="true" repeat="true"][/videoshort]
+//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" breakpoint="800" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" click_label="Click Here" autoplay="true" repeat="true"]<h2>Title</h2><p>Lorum ipsum</p><a href="#">Clicky</a>[/videoshort]
