@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WL Video Short
-Description: A wordpress shortcode for video features with several options
+Description: A custom shortcode for video features with optional initial image and custom 'click' text/html and overlay text/html
 Author: Web Locomotive
 Author URI: http://weblocomotive.com
 Version: 1.0
@@ -17,6 +17,7 @@ function wl_video_short_enqueue() {
 	wp_enqueue_script('wl_video_short-js');
 }
 add_action( 'wp_enqueue_scripts', 'wl_video_short_enqueue' );
+
 
 //shortcode
 function videoshort_function($atts, $content = null){
@@ -41,6 +42,7 @@ function videoshort_function($atts, $content = null){
 		
 		'max_height' => "500", //Int. height to limit height of banner/video area
         'min_height' => "400", //Int. minimum height
+		'breakpoint' => '800',//Int. Breakpoint to adjust min-height
 		'limit_width' => "true", //True or false. limit (restrict to the 'max_width') or not (set as full width) the video and image
         'max_width' => "1000", //Int. if limit_width is true, how wide should the video/image be?
 		'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
@@ -64,6 +66,7 @@ function videoshort_function($atts, $content = null){
     $videoBack = $atts['video_back'];
     $maxHeight = $atts['max_height'];
     $minHeight = $atts['min_height'];
+	$breakpoint = $atts['breakpoint'];
     $limitWidth = $atts['limit_width'] == "true" ? true : false;
     $maxWidth = $atts['max_width'];
     $autoplay = $atts['autoplay'] == "true" ? true : false;
@@ -92,11 +95,27 @@ function videoshort_function($atts, $content = null){
 			break;
 	}
 	
+	//inline css
+	$inline = "
+	<style type='text/css' scoped>
+	#wl_video_" . $id . " .wl_videoImageWrap,#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+		min-height: " . $maxHeight . "px;
+	}
+	@media all and (max-width: " . $breakpoint . "px){
+		#wl_video_" . $id . " .wl_videoImageWrap,#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+			min-height: " . $minHeight . "px;
+		}
+	}
+	</style>";
+	
 	//construct
     $output = "";
+	
     $imageWrapClass = "wl_videoImageWrap";
     $imageClass = "wl_videoImage";
 
+	$output .= $inline;
+	
     //video params and placeholder
     $output .= "
     <div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px; min-height:" . $minHeight . "px; ". ($limitWidth ? "background-color: ".$thumbBack . ";" : "") . "'>
@@ -108,23 +127,23 @@ function videoshort_function($atts, $content = null){
 	data-maxheight='" . $maxHeight . "'
 	data-minheight='" . $minHeight . "'
 	data-auto='" . ($autoplay ? '1' : '0') . "'
-	data-repeat='" . ($repeat ? '1' : '0') ."'
+	data-repeat='" . ($repeat ? '1' : '0') . "'
 	data-crop='" . $cropDirection . "'
 	data-id='videoPlay_" . $id . "'
 	data-videoid='" . $videoId . "'
 	data-width='" . $videoWidth . "'
-	data-height='".$videoHeight . "'
+	data-height='" . $videoHeight . "'
 	data-imgurl='" . $thumbUrl . "'
 	data-imgalt='" . $thumbAlt . "'
-	data-label='" . ($clickLabelSlashed != "" ? "[".$clickLabelSlashed."]" : "") . "'
-	data-overlay='" . ($videoOverlaySlashed != "" ? "[".$videoOverlaySlashed."]" : "") . "'
-	data-limit='" . ($limitWidth  && $maxWidth != "" ? $maxWidth : "") . "'
-	data-imagebk='" . ($limitWidth  && $thumbBack ? $thumbBack : "") . "'
-	data-videobk='" . ($limitWidth  && $videoBack ? $videoBack : "") . "'
+	data-label='[" . $clickLabelSlashed . "]'
+	data-overlay='[" . $videoOverlaySlashed."]'
+	data-limit='" . ($limitWidth ? '1' : '0') . "'
+	data-imagebk='" . $thumbBack . "'
+	data-videobk='" . $videoBack . "'
 	>";
-    
+    //min-height:' . $minHeight . 'px;
     //placeholder image
-	$output .= '<div class="' . $imageWrapClass . '" style="' . ($limitWidth ? 'max-width: ' . $maxWidth . 'px; margin: 0 auto;' : '') . ' min-height:' . $minHeight . 'px;">
+	$output .= '<div class="' . $imageWrapClass . '" style="' . ($limitWidth ? 'max-width: ' . $maxWidth . 'px; margin: 0 auto;' : '') . '  max-height: '.$maxHeight.'px;">
 		<img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />
 		
 		<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">
@@ -139,4 +158,4 @@ function videoshort_function($atts, $content = null){
 	return $output;
 }
 add_shortcode('videoshort', 'videoshort_function' );
-//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" video_overlay="Some overlay text" click_label="Click Here" autoplay="true" repeat="true"][/videoshort]
+//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" breakpoint="800" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" video_overlay="Some overlay text" click_label="Click Here" autoplay="true" repeat="true"][/videoshort]

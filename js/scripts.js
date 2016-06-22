@@ -3,7 +3,7 @@
 ;(function($) {//extending to include jquery so some functions can be written in jquery
 NS.WLFUN = {
 
-//happens on youtube api callback
+//happens on video api callback
 videoLoad: function(elem){
     
     var videoElem = $(elem);
@@ -39,7 +39,7 @@ imageToIframe: function(elem){
     var height = parseFloat(detail.attr('data-height'));
     var minHeight = parseFloat(detail.attr('data-minheight'));
     var width = parseFloat(detail.attr('data-width'));
-    var limit = detail.attr('data-limit') != "" ? detail.attr('data-limit') : false;
+    var limit = detail.attr('data-limit') == "1" ? true : false;
     var maxWidth = parseFloat(detail.attr('data-maxwidth'));
     var auto = detail.attr('data-auto') == "1" ? true : false;
     var loop = detail.attr('data-repeat') == "1" ? true : false; 
@@ -62,7 +62,7 @@ imageToIframe: function(elem){
     
     }else if(service=='vimeo'){
     
-    var iframe = '<div class="wl_videoWrap fluid-width-video-wrapper" style="min-height:' + minHeight+'px; ' + (limit && maxWidth != '' ? 'max-width: ' + maxWidth +'px; ' : '') + '"><iframe  id="' + iframeID + '" class="wl_video" width="' + width + '" height="' + height + '" src="https://player.vimeo.com/video/' + videoID + '?&title=0&byline=0&portrait=0'+(loop ? '&loop=1' : '')+'&autoplay=1&color=ffffff&api=1" frameborder="0"></iframe><div class="wl_videoOverlay"><div class="inner"><div class="inner"><div class="inner">'+overlay+'</div></div></div></div></div>';
+    var iframe = '<div class="wl_videoWrap fluid-width-video-wrapper" style="' + (limit && maxWidth != '' ? 'max-width: ' + maxWidth +'px; ' : '') + '"><iframe  id="' + iframeID + '" class="wl_video" width="' + width + '" height="' + height + '" src="https://player.vimeo.com/video/' + videoID + '?&title=0&byline=0&portrait=0'+(loop ? '&loop=1' : '')+'&autoplay=1&color=ffffff&api=1" frameborder="0"></iframe><div class="wl_videoOverlay"><div class="inner"><div class="inner"><div class="inner">'+overlay+'</div></div></div></div></div>';
     
     //replace image and image wrap with iframe and iframe wrap
     detail.html(iframe);
@@ -85,7 +85,7 @@ iframeToImage: function(elem){
     
     //parameters
     var detail = $('#'+thisID+' .videoPlay');
-    var limit = detail.attr('data-limit') != "" ? detail.attr('data-limit') : false;
+    var limit = detail.attr('data-limit') ==1 ? true : false;
     var maxWidth = parseFloat(detail.attr('data-maxwidth'));
     var minHeight = parseFloat(detail.attr('data-minheight'));
     var height = parseFloat(detail.attr('data-height'));
@@ -95,7 +95,7 @@ iframeToImage: function(elem){
     var imgLabel = $.parseJSON(detail.attr('data-label'));
     var imgID = thisID.replace('wl_video_','wl_videolabel_');
     
-    var imgPlaceholder = '<div class="wl_videoImageWrap" style="margin: 0 auto; min-height: ' +minHeight + 'px; ' + (limit ?  'max-width: ' + maxWidth + 'px' : "") + '"><img class="wl_videoImage" src="'+thumbUrl+'" alt="'+thumbAlt+'" width="'+width+'" height="'+height+'" /><div class="wl_videoClick" id="' + imgID + '" ><div class="inner"><div class="inner"><div class="inner">'+imgLabel+'</div></div></div></div></div>';
+    var imgPlaceholder = '<div class="wl_videoImageWrap" style="margin: 0 auto; ' + (limit ?  'max-width: ' + maxWidth + 'px' : "") + '"><img class="wl_videoImage" src="'+thumbUrl+'" alt="'+thumbAlt+'" width="'+width+'" height="'+height+'" /><div class="wl_videoClick" id="' + imgID + '" ><div class="inner"><div class="inner"><div class="inner">'+imgLabel+'</div></div></div></div></div>';
     
     var imageBack = detail.attr('data-imagebk');
     elem.css({'background-color':imageBack});
@@ -240,15 +240,15 @@ sizeVideo: function(elem){
     var videoWidth = NS.WLFUN.ratio(minHeight,videoOrigHeight,videoOrigWidth);
     
     //check min width
-    if (minHeight >= videoHeight) {
-        //console.log('video is smaller than the min height');
+    if (minHeight > videoHeight) {
+        console.log('video is smaller than the min height');
         
         //set height/width
         newHeight = minHeight + extraPadding;
         newWidth = videoWidth;
         newMaxWidth = "none";
         newTop = "50%";
-        newMarginTop = "-"+(newHeight/2);
+        newMarginTop = "-" + (newHeight/2);
         
         //adjust center positioning of video if width is greater than wrapper width
         if (newWidth > videoWrapWidth) {
@@ -258,44 +258,59 @@ sizeVideo: function(elem){
         }
         
     }else{
-        console.log('video is larger than the min height');
-        
+        //console.log('video is larger than the min height');
+    
         //set height/width
-        extraPadding = (service == "vimeo" ? NS.WLFUN.percentage(80,videoHeight) : 0);
-        newHeight = videoHeight + extraPadding;
-        newWidth = videoWrapWidth;
-        newMaxWidth = "100%";
-         
-        if (maxHeight < newHeight) {
-            //console.log('video is larger than max height');
-            //crop according to parameter
-            switch(crop){
-                case 'top':
-                    //console.log("cropping from top");
-                    newTop = 0;
-                    newBottom = "auto";
-                    newMarginTop = 0;
-                    break;
-                case 'center':
-                    //console.log("cropping from center");
-                    newTop = "50%";
-                    newBottom = "auto";
-                    newMarginTop = "-"+(newHeight/2);
-                    break;
-                case 'bottom':
-                    //console.log("cropping from bottom");
-                    newTop = "auto";
-                    newBottom = 0;
-                    newMarginTop = 0;
-                    break;
-                default:
-                    break;
-            };
+        if (videoHeight > maxHeight) {
+            //console.log('video taller than max height');
             
+            newMaxWidth = "100%";
+            newWidth = videoWrapWidth;
+            extraPadding = (service == "vimeo" ? NS.WLFUN.percentage(80,videoHeight) : 0);
+            newHeight = videoHeight + extraPadding;
+        
         }else{
-            //console.log('video is smaller than max height');
-            //do nothing
+            //console.log('video smaller than max height');
+            
+            extraPadding = (service == "vimeo" ? NS.WLFUN.percentage(80,maxHeight) : 0);
+            newHeight = maxHeight + extraPadding;
+            console.log(newHeight);
+            
+            videoWidth = NS.WLFUN.ratio(maxHeight,videoOrigHeight,videoOrigWidth);
+            newWidth = videoWidth;
+            newMaxWidth = "none";
+            
+            //adjust center positioning of video if width is greater than wrapper width
+            if (newWidth > videoWrapWidth) {
+                newMarginLeft = "-" + (newWidth/2);
+                newLeft = "50%";
+            }
+    
         }
+        
+        //crop according to parameter
+        switch(crop){
+            case 'top':
+                //console.log("cropping from top");
+                newTop = 0;
+                newBottom = "auto";
+                newMarginTop = 0;
+                break;
+            case 'center':
+                //console.log("cropping from center");
+                newTop = "50%";
+                newBottom = "auto";
+                newMarginTop = "-"+(newHeight/2);
+                break;
+            case 'bottom':
+                //console.log("cropping from bottom");
+                newTop = "auto";
+                newBottom = 0;
+                newMarginTop = 0;
+                break;
+            default:
+                break;
+        };
     }
     
     //set new attributes to the video element

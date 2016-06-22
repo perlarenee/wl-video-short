@@ -22,6 +22,8 @@ A wordpress plugin providing a shortcode for video features with several options
   - Example: 500
 - **min_height:** [INT] Minimum height of video area
   - Example: 300
+- **breakpoint:** [INT] Breakpoint width to switch from max-height to min-height
+  - Example: 800
 - **limit_width:** [BOOL] Limit the video and image or allow full width
   - Example: true
   - Options: true/false
