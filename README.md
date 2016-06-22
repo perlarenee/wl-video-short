@@ -47,4 +47,8 @@ A wordpress plugin providing a shortcode for video features with several options
   - Options: true/false
 - **repeat:** [BOOL] Set the video to loop
   - Example: true
+<<<<<<< HEAD
   - Options: true/false
+=======
+  - Options: true/false
+>>>>>>> origin/master
