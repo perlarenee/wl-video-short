@@ -1,0 +1,73 @@
+.fluid-width-video-wrapper { 
+    width: 100%;
+    position: relative;
+    padding: 56.25% 0 0 0;
+}
+.fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 100%;
+    vertical-align: baseline;
+    max-width: 100%;
+}
+.wl_videoElem {
+    position: relative;
+    overflow: hidden;
+}
+.wl_videoImageWrap,.wl_videoWrap.fluid-width-video-wrapper {
+    position: relative;
+    margin: 0 auto;
+}
+.wl_videoImage,.wl_videoWrap.fluid-width-video-wrapper .wl_video {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    margin-top: 0;
+    margin-left:0;
+}
+.wl_videoClick,.wl_videoOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.wl_videoClick > .inner, .wl_videoOverlay > .inner {
+    display: table;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+.wl_videoClick > .inner > .inner, .wl_videoOverlay > .inner > .inner{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.wl_videoClick > .inner > .inner > .inner{
+    width: auto;
+    height: auto;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.wl_videoOverlay > .inner > .inner > .inner{
+    width: auto;
+    height: auto;
+    display: inline-block;
+    zoom: 1;
+    *display: inline; 
+    margin: 0 auto;
+}
