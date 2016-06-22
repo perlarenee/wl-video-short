@@ -292,7 +292,7 @@ sizeVideo: function(elem){
         switch(crop){
             case 'top':
                 //console.log("cropping from top");
-                newTop = 0;
+                newTop = 0-(extraPadding/2);
                 newBottom = "auto";
                 newMarginTop = 0;
                 break;
@@ -305,7 +305,7 @@ sizeVideo: function(elem){
             case 'bottom':
                 //console.log("cropping from bottom");
                 newTop = "auto";
-                newBottom = 0;
+                newBottom = 0-(extraPadding/2);
                 newMarginTop = 0;
                 break;
             default:
