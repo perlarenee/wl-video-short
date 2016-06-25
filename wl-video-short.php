@@ -28,7 +28,7 @@ Version: 1.0
 //enqueue scripts
 function wl_video_short_enqueue() {
 	wp_register_style( 'wl_video_short-css', plugins_url('css/styles.css',__FILE__));
-    wp_register_script('youtube-api','https://www.youtube.com/iframe_api',array(), '1.0.0', false );
+	wp_register_script('youtube-api','https://www.youtube.com/iframe_api',array(), '1.0.0', false );
 	wp_register_script('vimeo-api','https://player.vimeo.com/api/player.js',array(),'1.0.0',false);
 	wp_register_script('wl_video_short-js', plugins_url('js/scripts.js',__FILE__),array(), '1.0.0', true );
 	wp_register_script('jquery-rotate-js', plugins_url('js/jquery-rotate.js',__FILE__),array(), '1.0.0', true );
@@ -50,14 +50,14 @@ function videoshort_function($atts, $content = null){
 		'video_id' => '171439497', //youtube or vimeo id
 		'service' => 'vimeo', //Video hosting service...either youtube or vimeo
 		'video_height' => "360", //Int. original youtube or vimeo height (used for ratio)
-        'video_width' => "640", //Int. original youtube or vimeo width (used for ratio)
+		'video_width' => "640", //Int. original youtube or vimeo width (used for ratio)
 		
 		//youtube defaults
 		/*
-		'video_id' => 'dqTtoTK6kMk', //youtube or vimeo id
-		'service' => 'youtube', //Video hosting service...either youtube or vimeo
-		'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
-		'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
+		 'video_id' => 'dqTtoTK6kMk', //youtube or vimeo id
+		 'service' => 'youtube', //Video hosting service...either youtube or vimeo
+		 'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
+		 'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
 		*/
 		
 		'max_height' => "500", //Int. height to limit height of banner/video area
@@ -97,11 +97,10 @@ function videoshort_function($atts, $content = null){
     $thumbUrl = $atts['thumb_url']; 
     $thumbAlt = $atts['thumb_alt'];
     $thumbBack = $atts['thumb_back'];
-    //$crop = $atts['crop'] == "true" ? true : false;
     $cropDirection = $atts['crop_direction'];
 	$service = $atts['service'];
 	$mute = $atts['mute'] == "true" ? true : false;
-
+	
 	//enqueue apis as needed
 	switch($service){
 		case 'youtube':
@@ -117,15 +116,11 @@ function videoshort_function($atts, $content = null){
 	//inline css
 	$inline = "
 	<style type='text/css' scoped>
-	#wl_video_" . $id . ",
-	#wl_video_" . $id . " .wl_videoImageWrap,
-	#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
-		min-height: " . $maxHeight . "px;
+	#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+	min-height: " . $maxHeight . "px;
 	}
 	@media all and (max-width: " . $breakpoint . "px){
-		#wl_video_" . $id . ",
-		#wl_video_" . $id . " .wl_videoImageWrap,
-		#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+		#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
 			min-height: " . $minHeight . "px;
 		}
 	}
@@ -133,12 +128,10 @@ function videoshort_function($atts, $content = null){
 	
 	//construct
     $output = "";
-	
     $imageWrapClass = "wl_videoImageWrap";
     $imageClass = "wl_videoImage";
-
 	$output .= $inline;
-	//min-height:" . $minHeight . "px;
+	
     //video params and placeholder
     $output .= "
     <div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px;  ". ($limitWidth ? "background-color: ".$thumbBack . "; " : "") . ($limitWidth ? " max-width: " . $maxWidth . "px; margin: 0 auto; " : "") . " '>
