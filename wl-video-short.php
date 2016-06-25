@@ -157,13 +157,13 @@ $output .= $inline;
 	
     //placeholder image
 	
-	$output .= '<div class="' . $imageWrapClass . '"  style="max-height: ' . $maxHeight . 'px; "><img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />';
-		if($clickLabel != ""){
-			$output .= '<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">'.$clickLabel.'<div class="loading" style="display:none;"><span>Loading</span></div></div></div></div></div>';
-		}else{
-			$output .= '<div class="loading" style="display:none;"><span>Loading</span></div>';
-		}
-	$output .= '</div>';
+$output .= '<div class="' . $imageWrapClass . '"  style="max-height: ' . $maxHeight . 'px; "><img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />';
+	if($clickLabel != ""){
+		$output .= '<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">'.$clickLabel.'<div class="loading" style="display:none;"><span>Loading</span></div></div></div></div></div>';
+	}else{
+		$output .= '<div class="loading" style="display:none;"><span>Loading</span></div>';
+	}
+$output .= '</div>';
 		
     $output .= '</div>
     </div>';
