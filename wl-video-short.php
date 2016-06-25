@@ -45,13 +45,11 @@ function videoshort_function($atts, $content = null){
 	$atts = shortcode_atts( 
     array(
         'id' => 'uniqueId', //Unique ID
-		
 		//vimeo defaults
 		'video_id' => '171439497', //youtube or vimeo id
 		'service' => 'vimeo', //Video hosting service...either youtube or vimeo
 		'video_height' => "360", //Int. original youtube or vimeo height (used for ratio)
 		'video_width' => "640", //Int. original youtube or vimeo width (used for ratio)
-		
 		//youtube defaults
 		/*
 		 'video_id' => 'dqTtoTK6kMk', //youtube or vimeo id
@@ -59,7 +57,6 @@ function videoshort_function($atts, $content = null){
 		 'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
 		 'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
 		*/
-		
 		'max_height' => "500", //Int. height to limit height of banner/video area
         'min_height' => "400", //Int. minimum height
 		'breakpoint' => '800',//Int. Breakpoint to adjust min-height
