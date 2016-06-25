@@ -7,6 +7,24 @@ Author URI: http://weblocomotive.com
 Version: 1.0
 */
 
+/* NOTES:
+ *
+ * Vimeo videos work best for repeating videos. Youtube videos have a nearly unstoppable black screen at the end, the 'end screen' and youtube includes this end screen with each repeat. Vimeo doesnt which allows vimeo to have a smoother appearance
+ *
+ * There is a load delay built in for both vimeo and youtube videos, to avoid black screens. The color can't be changed and I felt that a placeholder image looks better.
+ * The start delays are:
+ * 		vimeo: 0.01s
+ * 		youtube: 1s
+ *
+ * If not set to repeat, videos also end slightly before their actual ending, switching back to the placeholder image, unless set to repeat. This is because both youtube and vimeo have 'end screens.' By doing this, vimeo and youtube both can have a smooth appearance of fading back into a placeholder image at the end.
+ *		vimeo: -1s
+ *		youtube: -2s
+ *
+ * For optimal appearance, videos should be created to accomodate this and how they'll be used, whether as repeating videos or single view videos
+ * 
+ */
+
+ 
 //enqueue scripts
 function wl_video_short_enqueue() {
 	wp_register_style( 'wl_video_short-css', plugins_url('css/styles.css',__FILE__));
@@ -55,7 +73,7 @@ function videoshort_function($atts, $content = null){
 		'click_label' => '', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
         'repeat' => "false", //True or false. Works perfectly on vimeo but youtube includes a black screen at the end of the video which can't be gotten rid of. If vimeo is used and repeat is set to false, vimeo's sponsored video screen shows brieftly. To remove this the vimeo video should be uploaded to a vimeo pro account and the settings should be adjusted there. I've managed to remove it by stripping the last second off the video...this means a video used for this should include an extra 1 second at the end
-		'mute' => "true" //True or false. Works on youtube but not vimeo. on vimeo the video should be muted in vimeo's video manager
+		'mute' => "true" //True or false
     ),
 	$atts
 	);
@@ -163,4 +181,4 @@ function videoshort_function($atts, $content = null){
 	return $output;
 }
 add_shortcode('videoshort', 'videoshort_function' );
-//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640"  max_height="500" min_height="300" breakpoint="800" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" click_label="Click Here" autoplay="true" repeat="true"]<h2>Title</h2><p>Lorum ipsum</p><a href="#">Clicky</a>[/videoshort]
+//USE: [videoshort id="anID" video_id="171439497" service="vimeo" video_height="360" video_width="640" max_height="500" min_height="300" breakpoint="800" limit_width="true" max_width="1000"  thumb_url="http://fullurl.jpg" thumb_alt="Alt text" thumb_back="#FFFFFF" video_back="#333333" crop_direction="center" click_label="Click Here" autoplay="true" repeat="true" mute="true"]<h2>Title</h2><p>Lorum ipsum</p><a href="#">Clicky</a>[/videoshort]
