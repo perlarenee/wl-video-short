@@ -45,32 +45,32 @@ function videoshort_function($atts, $content = null){
 	$atts = shortcode_atts( 
     array(
         'id' => 'uniqueId', //Unique ID
-	//vimeo defaults
-	'video_id' => '171439497', //youtube or vimeo id
-	'service' => 'vimeo', //Video hosting service...either youtube or vimeo
-	'video_height' => "360", //Int. original youtube or vimeo height (used for ratio)
-	'video_width' => "640", //Int. original youtube or vimeo width (used for ratio)
-	//youtube defaults
-	/*
-	 'video_id' => 'dqTtoTK6kMk', //youtube or vimeo id
-	 'service' => 'youtube', //Video hosting service...either youtube or vimeo
-	 'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
-	 'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
-	*/
-	'max_height' => "500", //Int. height to limit height of banner/video area
+		//vimeo defaults
+		'video_id' => '171439497', //youtube or vimeo id
+		'service' => 'vimeo', //Video hosting service...either youtube or vimeo
+		'video_height' => "360", //Int. original youtube or vimeo height (used for ratio)
+		'video_width' => "640", //Int. original youtube or vimeo width (used for ratio)
+		//youtube defaults
+		/*
+		 'video_id' => 'dqTtoTK6kMk', //youtube or vimeo id
+		 'service' => 'youtube', //Video hosting service...either youtube or vimeo
+		 'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
+		 'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
+		*/
+		'max_height' => "500", //Int. height to limit height of banner/video area
         'min_height' => "400", //Int. minimum height
-	'breakpoint' => '800',//Int. Breakpoint to adjust min-height
-	'limit_width' => "true", //True or false. limit (restrict to the 'max_width') or not (set as full width) the video and image
+		'breakpoint' => '800',//Int. Breakpoint to adjust min-height
+		'limit_width' => "true", //True or false. limit (restrict to the 'max_width') or not (set as full width) the video and image
         'max_width' => "1000", //Int. if limit_width is true, how wide should the video/image be?
-	'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
+		'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
         'thumb_alt' => 'Video Placeholder', //Alt for thumbnail image
         'thumb_back' => '#CCCCCC', //Hexadecimal code (with hash). set this to match the image if limit is set to true
-	'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
-	'crop_direction' => 'center', //Top, center or bottom. crop direction
-	'click_label' => '', //Text to use as the click link
+		'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
+		'crop_direction' => 'center', //Top, center or bottom. crop direction
+		'click_label' => '', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
         'repeat' => "false", //True or false. Works perfectly on vimeo but youtube includes a black screen at the end of the video which can't be gotten rid of. If vimeo is used and repeat is set to false, vimeo's sponsored video screen shows brieftly. To remove this the vimeo video should be uploaded to a vimeo pro account and the settings should be adjusted there. I've managed to remove it by stripping the last second off the video...this means a video used for this should include an extra 1 second at the end
-	'mute' => "true" //True or false
+		'mute' => "true" //True or false
     ),
 	$atts
 	);
@@ -82,52 +82,52 @@ function videoshort_function($atts, $content = null){
     $videoBack = $atts['video_back'];
     $maxHeight = $atts['max_height'];
     $minHeight = $atts['min_height'];
-$breakpoint = $atts['breakpoint'];
+	$breakpoint = $atts['breakpoint'];
     $limitWidth = $atts['limit_width'] == "true" ? true : false;
     $maxWidth = $atts['max_width'];
     $autoplay = $atts['autoplay'] == "true" ? true : false;
     $repeat = $atts['repeat'] == "true" ? true : false;
     $clickLabel = htmlentities($atts['click_label'],ENT_QUOTES);
     $clickLabelSlashed = json_encode($clickLabel);
-$videoOverlay = $content;
-$videoOverlaySlashed = json_encode($videoOverlay);
+	$videoOverlay = $content;
+	$videoOverlaySlashed = json_encode($videoOverlay);
     $thumbUrl = $atts['thumb_url']; 
     $thumbAlt = $atts['thumb_alt'];
     $thumbBack = $atts['thumb_back'];
     $cropDirection = $atts['crop_direction'];
-$service = $atts['service'];
-$mute = $atts['mute'] == "true" ? true : false;
+	$service = $atts['service'];
+	$mute = $atts['mute'] == "true" ? true : false;
 	
-//enqueue apis as needed
-switch($service){
-	case 'youtube':
-		wp_enqueue_script('youtube-api');
-		break;
-	case 'vimeo':
-		wp_enqueue_script('vimeo-api');
-		break;
-	default:
-		break;
-}
-
-//inline css
-$inline = "
-<style type='text/css' scoped>
-#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
-min-height: " . $maxHeight . "px;
-}
-@media all and (max-width: " . $breakpoint . "px){
-	#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
-		min-height: " . $minHeight . "px;
+	//enqueue apis as needed
+	switch($service){
+		case 'youtube':
+			wp_enqueue_script('youtube-api');
+			break;
+		case 'vimeo':
+			wp_enqueue_script('vimeo-api');
+			break;
+		default:
+			break;
 	}
-}
-</style>";
+	
+	//inline css
+	$inline = "
+	<style type='text/css' scoped>
+	#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+	min-height: " . $maxHeight . "px;
+	}
+	@media all and (max-width: " . $breakpoint . "px){
+		#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+			min-height: " . $minHeight . "px;
+		}
+	}
+	</style>";
 	
 	//construct
     $output = "";
     $imageWrapClass = "wl_videoImageWrap";
     $imageClass = "wl_videoImage";
-$output .= $inline;
+	$output .= $inline;
 	
     //video params and placeholder
     $output .= "
@@ -157,13 +157,13 @@ $output .= $inline;
 	
     //placeholder image
 	
-$output .= '<div class="' . $imageWrapClass . '"  style="max-height: ' . $maxHeight . 'px; "><img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />';
-	if($clickLabel != ""){
-		$output .= '<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">'.$clickLabel.'<div class="loading" style="display:none;"><span>Loading</span></div></div></div></div></div>';
-	}else{
-		$output .= '<div class="loading" style="display:none;"><span>Loading</span></div>';
-	}
-$output .= '</div>';
+	$output .= '<div class="' . $imageWrapClass . '"  style="max-height: ' . $maxHeight . 'px; "><img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />';
+		if($clickLabel != ""){
+			$output .= '<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">'.$clickLabel.'<div class="loading" style="display:none;"><span>Loading</span></div></div></div></div></div>';
+		}else{
+			$output .= '<div class="loading" style="display:none;"><span>Loading</span></div>';
+		}
+	$output .= '</div>';
 		
     $output .= '</div>
     </div>';
