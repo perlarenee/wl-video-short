@@ -1,3 +1,9 @@
+/*responsvie youtube...use like
+ *
+ *'<div id="'.$id.'Wrap" class="fluid-width-video-wrapper"><iframe id="'.$id.'" class="wl-video-short" width="'.$youtube_width.'" height="'.$youtube_height.'" src="https://www.youtube.com/embed/'.$youtube_id.'?vq=hd720&rel=0&autohide=1&controls=0&modestbranding=1&theme=light&hd=1&autoplay=1&color=white&enablejsapi=1&showinfo=0&wmode=opaque&loop=1&playlist='.$youtube_id.'" frameborder="0" allowfullscreen></iframe></div>';
+ *
+ */
+
 .fluid-width-video-wrapper { 
     width: 100%;
     position: relative;
@@ -16,15 +22,24 @@
     background: transparent;
     font-size: 100%;
     vertical-align: baseline;
-    max-width: 100%;
+    max-width: 100%; 
 }
 .wl_videoElem {
     position: relative;
     overflow: hidden;
-}
-.wl_videoImageWrap,.wl_videoWrap.fluid-width-video-wrapper {
-    position: relative;
     margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+.wl_videoImageWrap,.wl_videoWrap.fluid-width-video-wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.wl_videoImageWrap{
+    z-index :100;
 }
 .wl_videoImage,.wl_videoWrap.fluid-width-video-wrapper .wl_video {
     display: block;
@@ -70,4 +85,39 @@
     zoom: 1;
     *display: inline; 
     margin: 0 auto;
+}
+.wl_videoWrap,.wl_videoImageWrap{
+    z-index: 100;
+}
+
+/* loading */
+.loading {
+    width: 50px;
+    height: 50px;
+    text-indent: -999em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    border: 5px solid #fff;
+    background: #fff;
+}
+
+.loading span {
+    -webkit-transform: rotate(50deg);
+    -moz-transform: rotate(50deg);
+    -ms-transform: rotate(50deg);
+    -o-transform: rotate(50deg);
+    transform: rotate(50deg);
+    width: 50px;
+    height: 50px;
+    text-indent: -999em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    border: 5px solid #fff;
+    background: #fff;
 }

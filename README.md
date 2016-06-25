@@ -40,12 +40,15 @@ A wordpress plugin providing a shortcode for video features with several options
 - **crop_direction:** [STR] Angle the image and video should crop
   - Example: center
   - Options: top/center/bottom  
-- **click_label:** [STR] Text to be centered vertically and horizontally over the placeholder image and used for the click event
+- **click_label:** [STR] Optional text to be centered vertically and horizontally over the placeholder image and used for the click event. If no text is entered, video should be set to repeat as there will be no way to restart the video after it finishes.
   - Example: Click here
 - **autoplay:** [BOOL] Set the video to load without a click event
   - Example: true
   - Options: true/false
 - **repeat:** [BOOL] Set the video to loop
+  - Example: true
+  - Options: true/false
+- **mute:** [BOOL] Set the video to mute or not
   - Example: true
   - Options: true/false
   

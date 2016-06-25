@@ -13,8 +13,10 @@ function wl_video_short_enqueue() {
     wp_register_script('youtube-api','https://www.youtube.com/iframe_api',array(), '1.0.0', false );
 	wp_register_script('vimeo-api','https://player.vimeo.com/api/player.js',array(),'1.0.0',false);
 	wp_register_script('wl_video_short-js', plugins_url('js/scripts.js',__FILE__),array(), '1.0.0', true );
+	wp_register_script('jquery-rotate-js', plugins_url('js/jquery-rotate.js',__FILE__),array(), '1.0.0', true );
 	wp_enqueue_style('wl_video_short-css');
 	wp_enqueue_script('wl_video_short-js');
+	wp_enqueue_script('jquery-rotate-js');
 }
 add_action( 'wp_enqueue_scripts', 'wl_video_short_enqueue' );
 
@@ -50,7 +52,7 @@ function videoshort_function($atts, $content = null){
         'thumb_back' => '#CCCCCC', //Hexadecimal code (with hash). set this to match the image if limit is set to true
 		'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
 		'crop_direction' => 'center', //Top, center or bottom. crop direction
-		'click_label' => 'Click here', //Text to use as the click link
+		'click_label' => '', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
         'repeat' => "false", //True or false. Works perfectly on vimeo but youtube includes a black screen at the end of the video which can't be gotten rid of. If vimeo is used and repeat is set to false, vimeo's sponsored video screen shows brieftly. To remove this the vimeo video should be uploaded to a vimeo pro account and the settings should be adjusted there. I've managed to remove it by stripping the last second off the video...this means a video used for this should include an extra 1 second at the end
 		'mute' => "true" //True or false. Works on youtube but not vimeo. on vimeo the video should be muted in vimeo's video manager
@@ -97,11 +99,15 @@ function videoshort_function($atts, $content = null){
 	//inline css
 	$inline = "
 	<style type='text/css' scoped>
-	#wl_video_" . $id . " .wl_videoImageWrap,#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+	#wl_video_" . $id . ",
+	#wl_video_" . $id . " .wl_videoImageWrap,
+	#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
 		min-height: " . $maxHeight . "px;
 	}
 	@media all and (max-width: " . $breakpoint . "px){
-		#wl_video_" . $id . " .wl_videoImageWrap,#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+		#wl_video_" . $id . ",
+		#wl_video_" . $id . " .wl_videoImageWrap,
+		#wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
 			min-height: " . $minHeight . "px;
 		}
 	}
@@ -114,10 +120,10 @@ function videoshort_function($atts, $content = null){
     $imageClass = "wl_videoImage";
 
 	$output .= $inline;
-	
+	//min-height:" . $minHeight . "px;
     //video params and placeholder
     $output .= "
-    <div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px; min-height:" . $minHeight . "px; ". ($limitWidth ? "background-color: ".$thumbBack . ";" : "") . "'>
+    <div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px;  ". ($limitWidth ? "background-color: ".$thumbBack . "; " : "") . ($limitWidth ? " max-width: " . $maxWidth . "px; margin: 0 auto; " : "") . " '>
     
     <div class='videoPlay' 
 	data-service='" . $service . "'
@@ -142,14 +148,14 @@ function videoshort_function($atts, $content = null){
 	>";
 	
     //placeholder image
-	$output .= '<div class="' . $imageWrapClass . '" style="' . ($limitWidth ? 'max-width: ' . $maxWidth . 'px; margin: 0 auto;' : '') . '  max-height: '.$maxHeight.'px;">
-		<img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />
-		
-		<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">
-		'.$clickLabel.'
-		</div></div></div></div>
-		
-	</div>';
+	
+	$output .= '<div class="' . $imageWrapClass . '"  style="max-height: ' . $maxHeight . 'px; "><img class="' . $imageClass . '" width="' . $videoWidth . '" height="'.$videoHeight.'" alt="' . $thumbAlt . '" src="' . $thumbUrl . '" />';
+		if($clickLabel != ""){
+			$output .= '<div class="wl_videoClick" id="wl_videolabel_' . $id . '" ><div class="inner"><div class="inner"><div class="inner">'.$clickLabel.'<div class="loading" style="display:none;"><span>Loading</span></div></div></div></div></div>';
+		}else{
+			$output .= '<div class="loading" style="display:none;"><span>Loading</span></div>';
+		}
+	$output .= '</div>';
 		
     $output .= '</div>
     </div>';
