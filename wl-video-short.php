@@ -65,7 +65,7 @@ function videoshort_function($atts, $content = null){
 	'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
         'thumb_alt' => 'Video Placeholder', //Alt for thumbnail image
         'thumb_back' => '#CCCCCC', //Hexadecimal code (with hash). set this to match the image if limit is set to true
-		'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
+	'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
 	'crop_direction' => 'center', //Top, center or bottom. crop direction
 	'click_label' => '', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
@@ -82,52 +82,52 @@ function videoshort_function($atts, $content = null){
     $videoBack = $atts['video_back'];
     $maxHeight = $atts['max_height'];
     $minHeight = $atts['min_height'];
-	$breakpoint = $atts['breakpoint'];
+$breakpoint = $atts['breakpoint'];
     $limitWidth = $atts['limit_width'] == "true" ? true : false;
     $maxWidth = $atts['max_width'];
     $autoplay = $atts['autoplay'] == "true" ? true : false;
     $repeat = $atts['repeat'] == "true" ? true : false;
     $clickLabel = htmlentities($atts['click_label'],ENT_QUOTES);
     $clickLabelSlashed = json_encode($clickLabel);
-	$videoOverlay = $content;
-	$videoOverlaySlashed = json_encode($videoOverlay);
+$videoOverlay = $content;
+$videoOverlaySlashed = json_encode($videoOverlay);
     $thumbUrl = $atts['thumb_url']; 
     $thumbAlt = $atts['thumb_alt'];
     $thumbBack = $atts['thumb_back'];
     $cropDirection = $atts['crop_direction'];
-	$service = $atts['service'];
-	$mute = $atts['mute'] == "true" ? true : false;
+$service = $atts['service'];
+$mute = $atts['mute'] == "true" ? true : false;
 	
-	//enqueue apis as needed
-	switch($service){
-		case 'youtube':
-			wp_enqueue_script('youtube-api');
-			break;
-		case 'vimeo':
-			wp_enqueue_script('vimeo-api');
-			break;
-		default:
-			break;
-	}
-	
-	//inline css
-	$inline = "
-	<style type='text/css' scoped>
+//enqueue apis as needed
+switch($service){
+	case 'youtube':
+		wp_enqueue_script('youtube-api');
+		break;
+	case 'vimeo':
+		wp_enqueue_script('vimeo-api');
+		break;
+	default:
+		break;
+}
+
+//inline css
+$inline = "
+<style type='text/css' scoped>
+#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+min-height: " . $maxHeight . "px;
+}
+@media all and (max-width: " . $breakpoint . "px){
 	#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
-	min-height: " . $maxHeight . "px;
+		min-height: " . $minHeight . "px;
 	}
-	@media all and (max-width: " . $breakpoint . "px){
-		#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
-			min-height: " . $minHeight . "px;
-		}
-	}
-	</style>";
+}
+</style>";
 	
 	//construct
     $output = "";
     $imageWrapClass = "wl_videoImageWrap";
     $imageClass = "wl_videoImage";
-	$output .= $inline;
+$output .= $inline;
 	
     //video params and placeholder
     $output .= "
