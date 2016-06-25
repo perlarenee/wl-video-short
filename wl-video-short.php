@@ -57,20 +57,20 @@ function videoshort_function($atts, $content = null){
 	 'video_height' => "315", //Int. original youtube or vimeo height (used for ratio)
 	 'video_width' => "560", //Int. original youtube or vimeo weight (used for ratio)
 	*/
-		'max_height' => "500", //Int. height to limit height of banner/video area
+	'max_height' => "500", //Int. height to limit height of banner/video area
         'min_height' => "400", //Int. minimum height
-		'breakpoint' => '800',//Int. Breakpoint to adjust min-height
-		'limit_width' => "true", //True or false. limit (restrict to the 'max_width') or not (set as full width) the video and image
+	'breakpoint' => '800',//Int. Breakpoint to adjust min-height
+	'limit_width' => "true", //True or false. limit (restrict to the 'max_width') or not (set as full width) the video and image
         'max_width' => "1000", //Int. if limit_width is true, how wide should the video/image be?
-		'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
+	'thumb_url' => 'http://dev.thepianospot.net/wp-content/uploads/2016/06/videoPlace.jpg', //Url
         'thumb_alt' => 'Video Placeholder', //Alt for thumbnail image
         'thumb_back' => '#CCCCCC', //Hexadecimal code (with hash). set this to match the image if limit is set to true
 		'video_back' => "#000000", //Hexadecimal code (with hash). set this to match the video if video is set to true
-		'crop_direction' => 'center', //Top, center or bottom. crop direction
-		'click_label' => '', //Text to use as the click link
+	'crop_direction' => 'center', //Top, center or bottom. crop direction
+	'click_label' => '', //Text to use as the click link
         'autoplay' => "false", //True or false. Should the video load as soon as api loads or should a click be required
         'repeat' => "false", //True or false. Works perfectly on vimeo but youtube includes a black screen at the end of the video which can't be gotten rid of. If vimeo is used and repeat is set to false, vimeo's sponsored video screen shows brieftly. To remove this the vimeo video should be uploaded to a vimeo pro account and the settings should be adjusted there. I've managed to remove it by stripping the last second off the video...this means a video used for this should include an extra 1 second at the end
-		'mute' => "true" //True or false
+	'mute' => "true" //True or false
     ),
 	$atts
 	);
