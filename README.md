@@ -1,5 +1,6 @@
 # wl-video-short
 A wordpress plugin providing a shortcode for video features with several options
+
 Tested and works back to IE9, Firefox 47, Safari 9.1.1, and Crome 51.0.2704.103 (64-bit).
 
 #### Sample Use
