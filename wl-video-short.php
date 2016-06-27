@@ -112,11 +112,11 @@ switch($service){
 //inline css
 $inline = "
 <style type='text/css' scoped>
-#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+#wl_video_" . $id . ", #wl_video_" . $id . " .videoPlay, #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
 	min-height: " . $maxHeight . "px;
 }
 @media all and (max-width: " . $breakpoint . "px){
-	#wl_video_" . $id . ", #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
+	#wl_video_" . $id . ", #wl_video_" . $id . " .videoPlay, #wl_video_" . $id . " .wl_videoImageWrap, #wl_video_" . $id . " .wl_videoWrap.fluid-width-video-wrapper {
 		min-height: " . $minHeight . "px;
 	}
 }
@@ -130,9 +130,10 @@ $output .= $inline;
 
 //video params and placeholder
 $output .= "
-<div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px;  ". ($limitWidth ? "background-color: ".$thumbBack . "; " : "") . ($limitWidth ? " max-width: " . $maxWidth . "px; margin: 0 auto; " : "") . " '>
+<div class='wl_videoElem video-".$service."' id='wl_video_" . $id . "' style='max-height: " . $maxHeight . "px;  ". ($limitWidth ? "background-color: ".$thumbBack . "; " : "") . " '>
 
-<div class='videoPlay' 
+<div class='videoPlay'
+style='".($limitWidth ? " max-width: " . $maxWidth . "px; margin: 0 auto; " : "")."'
 data-service='" . $service . "'
 data-mute='" . ($mute ? "1" : "0") . "'
 data-maxwidth='" . $maxWidth . "'

@@ -25,11 +25,15 @@
     max-width: 100%; 
 }
 .wl_videoElem {
-    position: relative;
-    overflow: hidden;
-    margin: 0 auto;
     width: 100%;
     height: 100%;
+}
+.wl_videoElem .videoPlay {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+    height:100%;
 }
 .wl_videoImageWrap,.wl_videoWrap.fluid-width-video-wrapper{
     position: absolute;
