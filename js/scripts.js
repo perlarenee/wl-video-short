@@ -488,6 +488,7 @@ vimeoInstance: function(thisId, image, video){
     var detail = $('#' + videoElemId+' .videoPlay');
     var loop = detail.attr('data-repeat') == "1" ? true : false;
     var mute = detail.attr('data-mute') == "1" ? true : false;
+    var imageBack = detail.attr('data-imagebk');
     
     player.play().then(function(){
         //console.log('playing');
@@ -527,11 +528,14 @@ vimeoInstance: function(thisId, image, video){
             
             //console.log('hiding loading2');
             image = false;
+            
         }
         
         //reset to image
         if (seconds >= (data.duration - 1) && video && !loop) {
             //console.log('load image');
+            //set background
+            $('#'+videoElemId).css({'background-color':imageBack});
             $('#'+videoElemId + ' .wl_videoImageWrap').fadeIn('slow');
             video = false;
         }
