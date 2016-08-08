@@ -4,7 +4,7 @@ Plugin Name: WL Video Short
 Description: A custom shortcode for video features with optional initial image and custom 'click' text/html and overlay text/html
 Author: Web Locomotive
 Author URI: http://weblocomotive.com
-Version: 1.0
+Version: 1.0 
 */
 
 /* NOTES:
